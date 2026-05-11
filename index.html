@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aikiu — Un acompañante de voz para tu familiar mayor</title>
-  <meta name="description" content="Aikiu convierte el celular viejo que tenés en el cajón en un acompañante de voz para tu mamá, tu papá, tu abuelo. Gratis. Sin suscripción.">
+  <title>Aikiu — Sabés que está bien</title>
+  <meta name="description" content="Aikiu acompaña a tu adulto mayor durante el día y te avisa si algo no está como debería. Sin comprar ningún dispositivo. Sin costo mensual para empezar.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
@@ -33,7 +33,6 @@
       overflow-x: hidden;
     }
 
-    /* NOISE */
     body::after {
       content: '';
       position: fixed;
@@ -43,7 +42,6 @@
       z-index: 999;
     }
 
-    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -62,24 +60,17 @@
       font-size: 1.35rem;
       font-weight: 600;
       color: var(--ink);
-      letter-spacing: -0.01em;
     }
-
-    .logo em {
-      font-style: italic;
-      color: var(--terracotta);
-    }
+    .logo em { font-style: italic; color: var(--terracotta); }
 
     .nav-link {
       font-size: 0.85rem;
-      font-weight: 400;
       color: var(--ink-mid);
       text-decoration: none;
       transition: color 0.2s;
     }
     .nav-link:hover { color: var(--terracotta); }
 
-    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -89,6 +80,18 @@
       padding: 8rem 2rem 4rem;
       text-align: center;
       position: relative;
+    }
+
+    .hero-deco {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(600px, 90vw);
+      height: min(600px, 90vw);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(194,90,54,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .hero-eyebrow {
@@ -104,39 +107,42 @@
 
     .hero-title {
       font-family: 'Lora', serif;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-size: clamp(2.8rem, 7vw, 5rem);
       font-weight: 600;
-      line-height: 1.15;
+      line-height: 1.1;
       letter-spacing: -0.02em;
       color: var(--ink);
-      max-width: 720px;
-      margin-bottom: 1.5rem;
+      max-width: 700px;
+      margin-bottom: 1.75rem;
       opacity: 0;
       animation: fadeUp 0.8s 0.35s forwards;
     }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--terracotta);
-    }
+    .hero-title em { font-style: italic; color: var(--terracotta); }
 
     .hero-sub {
       font-size: clamp(1rem, 2vw, 1.15rem);
       font-weight: 300;
       color: var(--ink-mid);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
+      max-width: 500px;
+      line-height: 1.75;
+      margin-bottom: 0.6rem;
       opacity: 0;
       animation: fadeUp 0.8s 0.5s forwards;
     }
 
-    /* EMAIL FORM */
+    .hero-detail {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-bottom: 2.75rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
     .form-wrap {
       width: 100%;
       max-width: 440px;
       opacity: 0;
-      animation: fadeUp 0.8s 0.65s forwards;
+      animation: fadeUp 0.8s 0.7s forwards;
     }
 
     .form-row {
@@ -149,12 +155,10 @@
       box-shadow: 0 4px 24px rgba(0,0,0,0.06);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .form-row:focus-within {
       border-color: var(--terracotta);
       box-shadow: 0 4px 24px rgba(194,90,54,0.12);
     }
-
     .form-row input {
       flex: 1;
       border: none;
@@ -164,9 +168,7 @@
       font-size: 0.95rem;
       color: var(--ink);
     }
-
     .form-row input::placeholder { color: var(--ink-light); }
-
     .form-row button {
       background: var(--terracotta);
       color: white;
@@ -180,13 +182,9 @@
       transition: background 0.2s, transform 0.15s;
       white-space: nowrap;
     }
-
-    .form-row button:hover {
-      background: var(--terracotta-hover);
-      transform: scale(1.02);
-    }
-
+    .form-row button:hover { background: var(--terracotta-hover); transform: scale(1.02); }
     .form-row button:active { transform: scale(0.98); }
+    .form-row button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .form-note {
       font-size: 0.78rem;
@@ -205,21 +203,33 @@
       padding: 1rem;
     }
 
-    /* DECORATIVE CIRCLE */
-    .hero-deco {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(600px, 90vw);
-      height: min(600px, 90vw);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(194,90,54,0.06) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: -1;
+    .tension {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 2rem;
+      text-align: center;
     }
 
-    /* HOW IT WORKS */
+    .tension-quote {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--ink);
+      max-width: 620px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.45;
+    }
+
+    .tension-answer {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
     .section {
       padding: 6rem 2rem;
       max-width: 900px;
@@ -242,14 +252,14 @@
       font-weight: 600;
       text-align: center;
       letter-spacing: -0.02em;
-      margin-bottom: 4rem;
-      line-height: 1.2;
+      margin-bottom: 3.5rem;
+      line-height: 1.25;
     }
 
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
+      gap: 1.5rem;
     }
 
     .step {
@@ -257,10 +267,8 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 2rem 1.75rem;
-      position: relative;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .step:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.07);
@@ -275,111 +283,99 @@
       margin-bottom: 1rem;
     }
 
-    .step h3 {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: var(--ink);
-    }
+    .step h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.9rem; font-weight: 300; color: var(--ink-mid); line-height: 1.65; }
 
-    .step p {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--ink-mid);
-      line-height: 1.6;
-    }
-
-    /* QUOTE */
-    .quote-section {
+    .plans-section {
       background: var(--cream);
       border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
-    .quote-text {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: clamp(1.3rem, 3vw, 1.9rem);
-      color: var(--ink);
-      max-width: 640px;
-      margin: 0 auto 1.5rem;
-      line-height: 1.5;
-    }
-
-    .quote-author {
-      font-size: 0.85rem;
-      color: var(--ink-light);
-      font-weight: 400;
-    }
-
-    /* WHY FREE */
-    .why-section {
       padding: 6rem 2rem;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
     }
 
-    .why-section .section-title { margin-bottom: 1.5rem; }
+    .plans-wrap { max-width: 760px; margin: 0 auto; }
 
-    .why-section p {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--ink-mid);
-      line-height: 1.8;
-      margin-bottom: 1rem;
+    .plans-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3.5rem;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--cream);
+    .plan {
+      background: var(--card);
       border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.25rem 2rem;
+    }
+
+    .plan.featured {
+      border-color: var(--terracotta);
+      box-shadow: 0 8px 32px rgba(194,90,54,0.1);
+    }
+
+    .plan-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--terracotta);
       border-radius: 100px;
-      padding: 0.4rem 1rem;
-      font-size: 0.82rem;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .plan-name {
+      font-family: 'Lora', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+    .plan-price span { font-size: 0.9rem; color: var(--ink-light); font-weight: 400; }
+
+    .plan-desc {
+      font-size: 0.85rem;
       color: var(--ink-mid);
-      margin: 0.25rem;
+      font-weight: 300;
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
     }
 
-    .pill-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--sage);
-      flex-shrink: 0;
-    }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
 
-    .pills-row {
+    .plan-features li {
+      font-size: 0.88rem;
+      color: var(--ink-mid);
+      font-weight: 300;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.25rem;
-      margin-top: 2rem;
+      align-items: flex-start;
+      gap: 0.5rem;
     }
+    .plan-features li::before { content: '✓'; color: var(--sage); font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+    .plan-features li.dim { color: var(--ink-light); }
+    .plan-features li.dim::before { color: var(--border); }
 
-    /* BOTTOM CTA */
     .bottom-cta {
       padding: 6rem 2rem;
       text-align: center;
       background: var(--ink);
       color: white;
     }
-
     .bottom-cta .section-label { color: rgba(255,255,255,0.4); }
-
-    .bottom-cta .section-title {
-      color: white;
-      margin-bottom: 1rem;
-    }
-
-    .bottom-cta p {
+    .bottom-cta .section-title { color: white; margin-bottom: 1rem; }
+    .bottom-cta > p {
       color: rgba(255,255,255,0.6);
       font-size: 1rem;
       font-weight: 300;
-      max-width: 460px;
+      max-width: 440px;
       margin: 0 auto 2.5rem;
       line-height: 1.7;
     }
@@ -390,17 +386,11 @@
       max-width: 440px;
       margin: 0 auto;
     }
-
-    .bottom-form .form-row:focus-within {
-      border-color: var(--terracotta);
-    }
-
+    .bottom-form .form-row:focus-within { border-color: var(--terracotta); }
     .bottom-form input { color: white; }
     .bottom-form input::placeholder { color: rgba(255,255,255,0.35); }
-
     .bottom-form .form-note { color: rgba(255,255,255,0.3); }
 
-    /* FOOTER */
     footer {
       padding: 2rem 2.5rem;
       display: flex;
@@ -412,25 +402,20 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-
-    footer a {
-      color: var(--ink-light);
-      text-decoration: none;
-    }
+    footer a { color: var(--ink-light); text-decoration: none; }
     footer a:hover { color: var(--terracotta); }
 
-    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* MOBILE */
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
       .hero { padding: 7rem 1.25rem 3rem; }
       .form-row { flex-direction: column; border-radius: 16px; padding: 0.75rem; }
       .form-row button { border-radius: 12px; padding: 0.85rem; }
+      .plans-grid { grid-template-columns: 1fr; }
       .section { padding: 4rem 1.25rem; }
       footer { flex-direction: column; text-align: center; }
     }
@@ -438,92 +423,103 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="logo">aik<em>iu</em></div>
     <a href="#como-funciona" class="nav-link">Cómo funciona</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-deco"></div>
-    <p class="hero-eyebrow">Código abierto · Gratuito · Sin suscripción</p>
-    <h1 class="hero-title">
-      Un acompañante de voz para<br>
-      <em>tu mamá, tu papá, tu abuelo</em>
-    </h1>
+    <p class="hero-eyebrow">La tranquilidad de estar conectado · Sin comprar nada</p>
+    <h1 class="hero-title">Sabés que<br><em>está bien.</em></h1>
     <p class="hero-sub">
-      Aikiu convierte el celular viejo que tenés en el cajón en un asistente que escucha, recuerda y acompaña. Vos lo configurás desde tu casa. Ellos solo hablan.
+      Aikiu acompaña a tu adulto mayor durante el día y te avisa si algo no está como debería. Sin comprar ningún dispositivo. Sin costo mensual para empezar.
     </p>
+    <p class="hero-detail">Solo necesitás el celular que ya tiene. Nada más.</p>
 
     <div class="form-wrap">
       <form class="form-row" id="form-hero" onsubmit="submitForm(event, 'hero')">
-        <input type="email" placeholder="tu@email.com" required autocomplete="email">
+        <input type="email" name="email" placeholder="tu@email.com" required autocomplete="email">
         <button type="submit">Quiero probarlo</button>
       </form>
-      <p class="form-note">Te avisamos cuando esté listo para instalar. Sin spam.</p>
-      <p class="success-msg" id="success-hero">¡Gracias! Te escribimos pronto. 🌿</p>
+      <p class="form-note">Te avisamos cuando esté listo. Sin spam.</p>
+      <p class="success-msg" id="success-hero">¡Anotado! Te escribimos pronto. 🌿</p>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
+  <div class="tension">
+    <p class="tension-quote">
+      "No puedo llamarla cada hora. Pero tampoco puedo dejar de pensar en si está bien."
+    </p>
+    <p class="tension-answer">
+      Aikiu no reemplaza tu presencia. Te da la tranquilidad de saber que tu adulto mayor está activo — habló, tomó la medicación, está en su día — aunque vos no puedas estar ahí.
+    </p>
+  </div>
+
   <section class="section" id="como-funciona">
     <p class="section-label">Cómo funciona</p>
-    <h2 class="section-title">Tres pasos. Después, solo hablan.</h2>
+    <h2 class="section-title">Tu adulto mayor habla.<br>Vos estás al tanto.</h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <h3>Instalás en tu compu</h3>
-        <p>Descargás Aikiu y lo abrís en tu notebook o PC. Configura todo solo en unos minutos.</p>
+        <h3>Configurás en minutos</h3>
+        <p>Creás tu cuenta, elegís el nombre del asistente, y lo vinculás al celular de tu adulto mayor. Sin instalar nada especial en tu casa.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Configurás el celular viejo</h3>
-        <p>El celular que nadie usa se convierte en el dispositivo de tu familiar. Instalás una app, elegís el nombre del asistente, lo enchufás en su mesa de luz.</p>
+        <h3>Tu adulto mayor habla</h3>
+        <p>Manda un mensaje de voz desde Telegram y recibe respuesta en segundos. Charla, compañía, recordatorios — en el celular que ya tiene.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Ellos hablan, vos tranquilo</h3>
-        <p>Tu familiar manda un mensaje de voz y recibe respuesta en segundos. Vos ves toda la conversación y recibís alertas si no interactuó en el día.</p>
+        <h3>Vos estás conectado</h3>
+        <p>Si tu adulto mayor no interactuó en el día, te avisamos. La tranquilidad de saber que está bien sin tener que llamar a cada rato.</p>
       </div>
     </div>
   </section>
 
-  <!-- QUOTE -->
-  <div class="quote-section">
-    <p class="quote-text">
-      "El asistente se llama como vos quieras. Muchas familias le ponen el nombre de alguien querido."
-    </p>
-    <p class="quote-author">— Aikiu, código abierto para siempre</p>
-  </div>
-
-  <!-- WHY FREE -->
-  <section class="why-section">
-    <p class="section-label">Por qué es gratis</p>
-    <h2 class="section-title">Porque no debería costar acompañar.</h2>
-    <p>
-      Aikiu es software de código abierto. Funciona en tu propia computadora, sin servidores nuestros, sin suscripción mensual. El audio de tu familiar nunca sale de tu casa.
-    </p>
-    <p>
-      Si querés contribuir al proyecto, podés hacerlo con código, con feedback, o simplemente probándolo.
-    </p>
-    <div class="pills-row">
-      <span class="pill"><span class="pill-dot"></span>Sin costo mensual</span>
-      <span class="pill"><span class="pill-dot"></span>Audio procesado localmente</span>
-      <span class="pill"><span class="pill-dot"></span>Código abierto en GitHub</span>
-      <span class="pill"><span class="pill-dot"></span>Sin datos en la nube</span>
-      <span class="pill"><span class="pill-dot"></span>Funciona con hardware viejo</span>
+  <section class="plans-section">
+    <div class="plans-wrap">
+      <p class="section-label" style="text-align:center;">Planes</p>
+      <h2 class="section-title">Empezá gratis.<br>Conectate más si querés.</h2>
+      <div class="plans-grid">
+        <div class="plan">
+          <div class="plan-name">Tranquilidad</div>
+          <div class="plan-price">$0 <span>/ mes</span></div>
+          <p class="plan-desc">Para empezar. Tu adulto mayor tiene compañía y vos sabés que está bien.</p>
+          <ul class="plan-features">
+            <li>Asistente de voz para tu adulto mayor</li>
+            <li>Alerta si no hubo actividad en el día</li>
+            <li>Recordatorios de medicación</li>
+            <li class="dim">Resumen diario de conversaciones</li>
+            <li class="dim">Alertas personalizadas por horario</li>
+            <li class="dim">Historial semanal de actividad</li>
+          </ul>
+        </div>
+        <div class="plan featured">
+          <div class="plan-badge">Próximamente</div>
+          <div class="plan-name">Conexión</div>
+          <div class="plan-price">— <span>/ mes</span></div>
+          <p class="plan-desc">Para el familiar que quiere estar presente aunque no pueda estar ahí.</p>
+          <ul class="plan-features">
+            <li>Todo del plan Tranquilidad</li>
+            <li>Resumen diario de conversaciones</li>
+            <li>Alertas personalizadas por horario</li>
+            <li>Historial semanal de actividad</li>
+            <li>Soporte prioritario</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- BOTTOM CTA -->
   <section class="bottom-cta">
-    <p class="section-label">Sumate</p>
+    <p class="section-label">Acceso anticipado</p>
     <h2 class="section-title">Estamos en etapa de prueba.</h2>
-    <p>Buscamos familias que quieran probarlo antes del lanzamiento y darnos feedback real.</p>
+    <p>Buscamos familias que quieran probarlo antes del lanzamiento. Tu feedback define el producto.</p>
     <div class="bottom-form">
       <form class="form-row" id="form-bottom" onsubmit="submitForm(event, 'bottom')">
-        <input type="email" placeholder="tu@email.com" required autocomplete="email">
+        <input type="email" name="email" placeholder="tu@email.com" required autocomplete="email">
         <button type="submit">Me apunto</button>
       </form>
       <p class="form-note">Sin spam. Te contactamos personalmente.</p>
@@ -531,32 +527,30 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="logo" style="font-family:'Lora',serif;font-size:1.1rem;font-weight:600;">aikiu</div>
-    <span>Código abierto · Buenos Aires, Argentina</span>
-    <a href="mailto:hola@aikiu.com">hola@aikiu.com</a>
+    <div style="font-family:'Lora',serif;font-size:1.1rem;font-weight:600;">aikiu</div>
+    <span>Buenos Aires, Argentina</span>
+    <a href="mailto:hi@aikiu.com">hi@aikiu.com</a>
   </footer>
 
   <script>
-    // Simple email capture — reemplazar con Formspree o similar
-    function submitForm(e, id) {
+    const FORMSPREE = 'https://formspree.io/f/mwvyyeav';
+
+    async function submitForm(e, id) {
       e.preventDefault();
       const form = e.target;
-      const email = form.querySelector('input[type=email]').value;
-
-      // Formspree endpoint — reemplazar XXXX con tu form ID
-      const FORMSPREE = 'https://formspree.io/f/XXXXXXXX';
-
-      fetch(FORMSPREE, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email, source: id })
-      })
-      .then(r => r.ok ? showSuccess(id, form) : showSuccess(id, form)) // muestra éxito igual
-      .catch(() => showSuccess(id, form)); // fallback: muestra éxito igual
-
-      showSuccess(id, form);
+      const btn  = form.querySelector('button');
+      btn.textContent = 'Enviando...';
+      btn.disabled = true;
+      try {
+        await fetch(FORMSPREE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email: form.querySelector('input[type=email]').value, source: id })
+        });
+      } finally {
+        showSuccess(id, form);
+      }
     }
 
     function showSuccess(id, form) {
@@ -565,7 +559,6 @@
       if (msg) msg.style.display = 'block';
     }
 
-    // Smooth reveal on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -575,7 +568,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.step').forEach(el => {
+    document.querySelectorAll('.step, .plan').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(24px)';
       el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
