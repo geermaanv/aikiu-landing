@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aikiu — Un acompañante de voz para tu familiar mayor</title>
+  <meta name="description" content="Aikiu convierte el celular viejo que tenés en el cajón en un acompañante de voz para tu mamá, tu papá, tu abuelo. Gratis. Sin suscripción.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F8F3ED;
+      --warm-white: #FDFAF6;
+      --ink: #1C1714;
+      --ink-mid: #6B5E56;
+      --ink-light: #A9998F;
+      --terracotta: #C25A36;
+      --terracotta-hover: #A84A28;
+      --sage: #6B917A;
+      --border: #E8DDD4;
+      --card: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NOISE */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      background: rgba(253,250,246,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Lora', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .logo em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .nav-link {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--terracotta); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      max-width: 720px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 300;
+      color: var(--ink-mid);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    /* EMAIL FORM */
+    .form-wrap {
+      width: 100%;
+      max-width: 440px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 0.35rem 0.35rem 0.35rem 1.25rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-row:focus-within {
+      border-color: var(--terracotta);
+      box-shadow: 0 4px 24px rgba(194,90,54,0.12);
+    }
+
+    .form-row input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    .form-row input::placeholder { color: var(--ink-light); }
+
+    .form-row button {
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 0.7rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .form-row button:hover {
+      background: var(--terracotta-hover);
+      transform: scale(1.02);
+    }
+
+    .form-row button:active { transform: scale(0.98); }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-top: 0.85rem;
+      text-align: center;
+    }
+
+    .success-msg {
+      display: none;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--sage);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* DECORATIVE CIRCLE */
+    .hero-deco {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(600px, 90vw);
+      height: min(600px, 90vw);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(194,90,54,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* HOW IT WORKS */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin-bottom: 4rem;
+      line-height: 1.2;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.07);
+    }
+
+    .step-num {
+      font-family: 'Lora', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    /* QUOTE */
+    .quote-section {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .quote-text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      color: var(--ink);
+      max-width: 640px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
+    }
+
+    .quote-author {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      font-weight: 400;
+    }
+
+    /* WHY FREE */
+    .why-section {
+      padding: 6rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .why-section .section-title { margin-bottom: 1.5rem; }
+
+    .why-section p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      color: var(--ink-mid);
+      margin: 0.25rem;
+    }
+
+    .pill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--sage);
+      flex-shrink: 0;
+    }
+
+    .pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.25rem;
+      margin-top: 2rem;
+    }
+
+    /* BOTTOM CTA */
+    .bottom-cta {
+      padding: 6rem 2rem;
+      text-align: center;
+      background: var(--ink);
+      color: white;
+    }
+
+    .bottom-cta .section-label { color: rgba(255,255,255,0.4); }
+
+    .bottom-cta .section-title {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .bottom-cta p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .bottom-form .form-row {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .bottom-form .form-row:focus-within {
+      border-color: var(--terracotta);
+    }
+
+    .bottom-form input { color: white; }
+    .bottom-form input::placeholder { color: rgba(255,255,255,0.35); }
+
+    .bottom-form .form-note { color: rgba(255,255,255,0.3); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    footer a {
+      color: var(--ink-light);
+      text-decoration: none;
+    }
+    footer a:hover { color: var(--terracotta); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero { padding: 7rem 1.25rem 3rem; }
+      .form-row { flex-direction: column; border-radius: 16px; padding: 0.75rem; }
+      .form-row button { border-radius: 12px; padding: 0.85rem; }
+      .section { padding: 4rem 1.25rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">aik<em>iu</em></div>
+    <a href="#como-funciona" class="nav-link">Cómo funciona</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-deco"></div>
+    <p class="hero-eyebrow">Código abierto · Gratuito · Sin suscripción</p>
+    <h1 class="hero-title">
+      Un acompañante de voz para<br>
+      <em>tu mamá, tu papá, tu abuelo</em>
+    </h1>
+    <p class="hero-sub">
+      Aikiu convierte el celular viejo que tenés en el cajón en un asistente que escucha, recuerda y acompaña. Vos lo configurás desde tu casa. Ellos solo hablan.
+    </p>
+
+    <div class="form-wrap">
+      <form class="form-row" id="form-hero" onsubmit="submitForm(event, 'hero')">
+        <input type="email" placeholder="tu@email.com" required autocomplete="email">
+        <button type="submit">Quiero probarlo</button>
+      </form>
+      <p class="form-note">Te avisamos cuando esté listo para instalar. Sin spam.</p>
+      <p class="success-msg" id="success-hero">¡Gracias! Te escribimos pronto. 🌿</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="como-funciona">
+    <p class="section-label">Cómo funciona</p>
+    <h2 class="section-title">Tres pasos. Después, solo hablan.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Instalás en tu compu</h3>
+        <p>Descargás Aikiu y lo abrís en tu notebook o PC. Configura todo solo en unos minutos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Configurás el celular viejo</h3>
+        <p>El celular que nadie usa se convierte en el dispositivo de tu familiar. Instalás una app, elegís el nombre del asistente, lo enchufás en su mesa de luz.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Ellos hablan, vos tranquilo</h3>
+        <p>Tu familiar manda un mensaje de voz y recibe respuesta en segundos. Vos ves toda la conversación y recibís alertas si no interactuó en el día.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quote-section">
+    <p class="quote-text">
+      "El asistente se llama como vos quieras. Muchas familias le ponen el nombre de alguien querido."
+    </p>
+    <p class="quote-author">— Aikiu, código abierto para siempre</p>
+  </div>
+
+  <!-- WHY FREE -->
+  <section class="why-section">
+    <p class="section-label">Por qué es gratis</p>
+    <h2 class="section-title">Porque no debería costar acompañar.</h2>
+    <p>
+      Aikiu es software de código abierto. Funciona en tu propia computadora, sin servidores nuestros, sin suscripción mensual. El audio de tu familiar nunca sale de tu casa.
+    </p>
+    <p>
+      Si querés contribuir al proyecto, podés hacerlo con código, con feedback, o simplemente probándolo.
+    </p>
+    <div class="pills-row">
+      <span class="pill"><span class="pill-dot"></span>Sin costo mensual</span>
+      <span class="pill"><span class="pill-dot"></span>Audio procesado localmente</span>
+      <span class="pill"><span class="pill-dot"></span>Código abierto en GitHub</span>
+      <span class="pill"><span class="pill-dot"></span>Sin datos en la nube</span>
+      <span class="pill"><span class="pill-dot"></span>Funciona con hardware viejo</span>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <p class="section-label">Sumate</p>
+    <h2 class="section-title">Estamos en etapa de prueba.</h2>
+    <p>Buscamos familias que quieran probarlo antes del lanzamiento y darnos feedback real.</p>
+    <div class="bottom-form">
+      <form class="form-row" id="form-bottom" onsubmit="submitForm(event, 'bottom')">
+        <input type="email" placeholder="tu@email.com" required autocomplete="email">
+        <button type="submit">Me apunto</button>
+      </form>
+      <p class="form-note">Sin spam. Te contactamos personalmente.</p>
+      <p class="success-msg" id="success-bottom">¡Anotado! Gracias por sumarte. 🌿</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo" style="font-family:'Lora',serif;font-size:1.1rem;font-weight:600;">aikiu</div>
+    <span>Código abierto · Buenos Aires, Argentina</span>
+    <a href="mailto:hola@aikiu.com">hola@aikiu.com</a>
+  </footer>
+
+  <script>
+    // Simple email capture — reemplazar con Formspree o similar
+    function submitForm(e, id) {
+      e.preventDefault();
+      const form = e.target;
+      const email = form.querySelector('input[type=email]').value;
+
+      // Formspree endpoint — reemplazar XXXX con tu form ID
+      const FORMSPREE = 'https://formspree.io/f/XXXXXXXX';
+
+      fetch(FORMSPREE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, source: id })
+      })
+      .then(r => r.ok ? showSuccess(id, form) : showSuccess(id, form)) // muestra éxito igual
+      .catch(() => showSuccess(id, form)); // fallback: muestra éxito igual
+
+      showSuccess(id, form);
+    }
+
+    function showSuccess(id, form) {
+      form.style.display = 'none';
+      const msg = document.getElementById('success-' + id);
+      if (msg) msg.style.display = 'block';
+    }
+
+    // Smooth reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.step').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
